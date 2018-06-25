@@ -11,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Avatar from '@material-ui/core/Avatar';
 
 
-class ScrappersDialog extends Component {
+class ScrapersDialog extends Component {
 
   render(){
 
@@ -24,16 +24,16 @@ class ScrappersDialog extends Component {
 
       <div>
         <List>
-          {this.props.scrappers.map((scrapper, key) => (
+          {this.props.scrapers.map((scraper, key) => (
             <ListItem key={key}>
               <ListItemAvatar>
                 <Avatar>
-                  {scrapper.name.charAt(0).toUpperCase()}
+                  {scraper.name.charAt(0).toUpperCase()}
                 </Avatar>
               </ListItemAvatar>
 
-              <ListItemText primary={scrapper.name} secondary={
-                  scrapper.description? scrapper.description : <i>No description available.</i>
+              <ListItemText primary={scraper.name} secondary={
+                  scraper.description? scraper.description : <i>No description available.</i>
               }/>
 
             </ListItem>
@@ -51,10 +51,10 @@ class ScrappersDialog extends Component {
   }
 }
 
-ScrappersDialog.propTypes = {
+ScrapersDialog.propTypes = {
   dialogIsOpen: PropTypes.bool.isRequired,
-  scrappers: PropTypes.array.isRequired,
+  scrapers: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired
 };
 
-export default ScrappersDialog;
+export default ScrapersDialog;

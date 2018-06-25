@@ -4,46 +4,46 @@ const url = require('url');
 const R = require('ramda');
 
 
-class ImageScrapper{
+class ImageScraper{
 
   constructor(options){
-    this.scrappers = [];
-    this.nameToScrapperMap = {};
+    this.scrapers = [];
+    this.nameToScraperMap = {};
   }
 
-  addScrapper(scrappers){
+  addScraper(scrapers){
 
-    if(!R.is(Array, scrappers)){
-      scrappers = [scrappers];
+    if(!R.is(Array, scrapers)){
+      scrapers = [scrapers];
     }
 
-    scrappers.map(s => {
-      if(R.isNil(s)) throw new Error("Scrapper null.");
+    scrapers.map(s => {
+      if(R.isNil(s)) throw new Error("Scraper null.");
       if(!R.is(Function, s.scrap)) throw new Error("Doesn't have 'scrap' method.");
       if(!R.is(String, s.name)) throw new Error("Doesn't have 'name' getter.");
 
-      this.nameToScrapperMap[s.name] = s;
-      this.scrappers.push(s);
+      this.nameToScraperMap[s.name] = s;
+      this.scrapers.push(s);
     });
 
   }
 
-  getScrapperDescription(name){
-    return this.nameToScrapperMap[name].description;
+  getScraperDescription(name){
+    return this.nameToScraperMap[name].description;
   }
 
-  getScrappersInfo(){
+  getScrapersInfo(){
 
-    let scrappers = [];
+    let scrapers = [];
 
-    this.scrappers.map(s => {
-      scrappers.push({
+    this.scrapers.map(s => {
+      scrapers.push({
         name: s.name,
         description: s.description || null
       });
     });
 
-    return scrappers;
+    return scrapers;
   }
 
   getImages(options){
@@ -57,9 +57,9 @@ class ImageScrapper{
       uri: URI.parse(fullUrl)
     };
 
-    for(let i=0; i<this.scrappers.length; i++){
-      let key = this.scrappers[i].name;
-      result[key] = this.scrappers[i].scrap(scrappingOptions);
+    for(let i=0; i<this.scrapers.length; i++){
+      let key = this.scrapers[i].name;
+      result[key] = this.scrapers[i].scrap(scrappingOptions);
 
       if(R.is(String, result[key])){
         result[key] = url.resolve(fullUrl, result[key]);
@@ -78,4 +78,4 @@ class ImageScrapper{
   }
 }
 
-module.exports = ImageScrapper;
+module.exports = ImageScraper;

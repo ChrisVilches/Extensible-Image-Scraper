@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import images from './images';
-import scrappers from './scrappers';
+import scrapers from './scrapers';
 
 export default combineReducers({
   images,
-  scrappers
+  scrapers
 });

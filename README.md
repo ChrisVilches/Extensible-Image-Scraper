@@ -1,4 +1,4 @@
-# Extensible Image Scrapper
+# Extensible Image Scraper
 
 ## How to run
 

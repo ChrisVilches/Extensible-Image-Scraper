@@ -2,8 +2,8 @@ export const REQUEST_IMAGES = 'REQUEST_IMAGES';
 export const RECEIVE_IMAGES_RESULT = 'RECEIVE_IMAGES_RESULT';
 export const INVALIDATE_URL = 'INVALIDATE_URL';
 
-export const REQUEST_SCRAPPERS = 'REQUEST_SCRAPPERS';
-export const REQUEST_SCRAPPERS_RESULT = 'REQUEST_SCRAPPERS_RESULT';
+export const REQUEST_SCRAPERS = 'REQUEST_SCRAPERS';
+export const REQUEST_SCRAPERS_RESULT = 'REQUEST_SCRAPERS_RESULT';
 
 
 let requestImages = function(){
@@ -25,16 +25,16 @@ let invalidateUrl = function(){
   };
 }
 
-let requestScrappers = function(){
+let requestScrapers = function(){
   return {
-    type: REQUEST_SCRAPPERS
+    type: REQUEST_SCRAPERS
   };
 }
 
-let receiveScrappersResult = function(scrappers){
+let receiveScrapersResult = function(scrapers){
   return {
-    type: REQUEST_SCRAPPERS_RESULT,
-    scrappers
+    type: REQUEST_SCRAPERS_RESULT,
+    scrapers
   };
 }
 
@@ -60,16 +60,16 @@ export const fetchImages = function(url){
 }
 
 
-export const fetchScrappers = function(){
+export const fetchScrapers = function(){
 
   return dispatch => {
 
-    dispatch(requestScrappers());
+    dispatch(requestScrapers());
 
-    fetch("http://localhost:3000/active_scrappers")
+    fetch("http://localhost:3000/active_scrapers")
     .then(data => data.json())
     .then(data => {
-      dispatch(receiveScrappersResult(data.scrappers));
+      dispatch(receiveScrapersResult(data.scrapers));
     })
     .catch(console.log);
 

@@ -4,21 +4,21 @@ const fetch = require('node-fetch');
 const download = require('download');
 const sharp = require('sharp');
 
-const ImageScrapper = require('../scrappers/ImageScrapper');
-const OgImage = require('../scrappers/OgImage');
-const AppleTouchIcon = require('../scrappers/AppleTouchIcon');
-const AllImages = require('../scrappers/AllImages');
-const TwitterIcon = require('../scrappers/TwitterIcon');
-const Favicon = require('../scrappers/Favicon');
+const ImageScraper = require('../scrapers/ImageScraper');
+const OgImage = require('../scrapers/OgImage');
+const AppleTouchIcon = require('../scrapers/AppleTouchIcon');
+const AllImages = require('../scrapers/AllImages');
+const TwitterIcon = require('../scrapers/TwitterIcon');
+const Favicon = require('../scrapers/Favicon');
 
 
 var minioClient = require('../minio');
 var util = require('../util');
 
 
-let imageScrapper = new ImageScrapper();
+let imageScraper = new ImageScraper();
 
-imageScrapper.addScrapper([
+imageScraper.addScraper([
   new OgImage(),
   new AppleTouchIcon(),
   new AllImages(),
@@ -32,7 +32,7 @@ async function getImages(site) {
   let res = await fetch(site).catch(err => { throw new Error(err); });
   let body = await res.text();
 
-  let imgs = imageScrapper.getImages({
+  let imgs = imageScraper.getImages({
     body: body,
     fullUrl: site
   });
@@ -97,7 +97,7 @@ router.get('/',
         let descriptions = {};
 
         Object.keys(imgs).map(k => {
-          descriptions[k] = imageScrapper.getScrapperDescription(k) || null;
+          descriptions[k] = imageScraper.getScraperDescription(k) || null;
         });
 
         return res.status(200).json({
@@ -168,12 +168,12 @@ router.get('/img/:objectName', function(req, res, next){
 });
 
 
-router.get('/active_scrappers', function(req, res){
+router.get('/active_scrapers', function(req, res){
 
-  let info = imageScrapper.getScrappersInfo();
+  let info = imageScraper.getScrapersInfo();
 
   return res.status(200).json({
-    scrappers: info
+    scrapers: info
   });
 });
 

@@ -10,11 +10,11 @@ class ScrapResultImages extends Component {
   render(){
 
     let urls = this.props.urls;
-    let scrapperName = this.props.scrapperName;
-    let scrapperDescription = this.props.scrapperDescription;
+    let scraperName = this.props.scraperName;
+    let scraperDescription = this.props.scraperDescription;
 
-    if(R.isNil(scrapperDescription)){
-      scrapperDescription = "(This scrapper hasn't specified a custom description) This is a plugin that scraps the website looking for pictures using a specific algorithm. The software can have multiple picture scrappers each for different purposes."
+    if(R.isNil(scraperDescription)){
+      scraperDescription = "(This scraper hasn't specified a custom description) This is a plugin that scraps the website looking for pictures using a specific algorithm. The software can have multiple picture scrapers each for different purposes."
     }
 
     if(!R.is(Array, urls)){
@@ -23,11 +23,11 @@ class ScrapResultImages extends Component {
 
     return <div>
       <h3>
-        <span className='scrapper-name-title'>
-        {scrapperName}
+        <span className='scraper-name-title'>
+        {scraperName}
         </span>
 
-        <Tooltip id="tooltip-icon" title={scrapperDescription}>
+        <Tooltip id="tooltip-icon" title={scraperDescription}>
           <small>
             <sup>[?]</sup>
           </small>
@@ -37,7 +37,7 @@ class ScrapResultImages extends Component {
       {
         urls.map((url, key) =>
         <a key={key} target='_blank' href={url}>
-          <img className='result-img' alt={`${scrapperName} ${key}`} src={url}/>
+          <img className='result-img' alt={`${scraperName} ${key}`} src={url}/>
         </a>)
 
       }
@@ -48,8 +48,8 @@ class ScrapResultImages extends Component {
 
 ScrapResultImages.propTypes = {
   urls: PropTypes.any.isRequired,
-  scrapperName: PropTypes.string.isRequired,
-  scrapperDescription: PropTypes.string
+  scraperName: PropTypes.string.isRequired,
+  scraperDescription: PropTypes.string
 };
 
 export default ScrapResultImages;

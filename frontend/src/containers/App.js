@@ -3,7 +3,7 @@ import * as actions from '../actions/App';
 import React, { Component } from 'react';
 import './App.css';
 import ScrapResultImages from '../components/ScrapResultImages';
-import ScrappersDialog from '../components/ScrappersDialog';
+import ScrapersDialog from '../components/ScrapersDialog';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
@@ -33,7 +33,7 @@ class App extends Component {
 
   openDialog(){
 
-    this.props.fetchScrappers();
+    this.props.fetchScrapers();
 
     this.setState({
       dialogOpen: true
@@ -61,8 +61,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Extensible Image Scrapper</h1>
-          <p><a target="_blank" rel="noopener noreferrer" className="header-link" href="https://github.com/FeloVilches/extensible-image-scrapper">Github</a></p>
+          <h1 className="App-title">Extensible Image Scraper</h1>
+          <p><a target="_blank" rel="noopener noreferrer" className="header-link" href="https://github.com/FeloVilches/extensible-image-scraper">Github</a></p>
         </header>
 
         <Grid container spacing={24}>
@@ -101,7 +101,7 @@ class App extends Component {
                 !R.isNil(this.props.images.images) &&
                 Object
                 .keys(this.props.images.images)
-                .map(key => <ScrapResultImages key={key} scrapperName={key} urls={this.props.images.images[key]} scrapperDescription={this.props.images.descriptions[key]}/>)
+                .map(key => <ScrapResultImages key={key} scraperName={key} urls={this.props.images.images[key]} scraperDescription={this.props.images.descriptions[key]}/>)
               }
 
               {
@@ -121,10 +121,10 @@ class App extends Component {
 
 
 
-        <ScrappersDialog
+        <ScrapersDialog
           dialogIsOpen={this.state.dialogOpen}
-          isFetching={this.props.scrappers.isFetching}
-          scrappers={this.props.scrappers.scrappers}
+          isFetching={this.props.scrapers.isFetching}
+          scrapers={this.props.scrapers.scrapers}
           closeDialog={this.handleCloseDialog}/>
 
       </div>
@@ -141,7 +141,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     fetchImages: url => { dispatch(actions.fetchImages(url)) },
-    fetchScrappers: () => { dispatch(actions.fetchScrappers()) }
+    fetchScrapers: () => { dispatch(actions.fetchScrapers()) }
   };
 }
 
