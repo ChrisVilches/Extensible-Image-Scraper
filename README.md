@@ -10,18 +10,24 @@ docker run -p 9000:9000 --name minio1 -v /mnt/data:/data -v /mnt/config:/root/.m
 
 No need to download anything, as this command will do so automatically and it'll then start Minio on port 9000.
 
-Install the app:
+Install each app:
 
 ```bash
 npm install
 ```
 
-Start the app (by default `localhost:3000`):
+Start the backend app (by default `localhost:3000`):
 
 ```bash
 # These keys are printed on the console when you run a minio Docker container
 export minioAccessKey=15NTOWZG8EKEDSW7J6UW
 export minioSecretKey=FEC9qsLIYhKDT7Shns7NY8uImRVBsMqNJO5tBdVr
+npm start
+```
+
+Start the frontend (`localhost:8080`):
+
+```
 npm start
 ```
 

@@ -66,7 +66,7 @@ export const fetchScrappers = function(){
 
     dispatch(requestScrappers());
 
-    fetch("http://201.189.187.207:3000/active_scrappers")
+    fetch("http://localhost:3000/active_scrappers")
     .then(data => data.json())
     .then(data => {
       dispatch(receiveScrappersResult(data.scrappers));
