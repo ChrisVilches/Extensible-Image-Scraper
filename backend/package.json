@@ -1,0 +1,23 @@
+{
+  "name": "image-scrapper",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cheerio": "^1.0.0-rc.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "download": "^7.0.0",
+    "express": "~4.15.2",
+    "minio": "^6.0.0",
+    "morgan": "~1.8.1",
+    "node-fetch": "^2.1.2",
+    "ramda": "^0.25.0",
+    "sharp": "^0.20.4",
+    "uri-js": "^4.2.2",
+    "url": "^0.11.0"
+  }
+}
