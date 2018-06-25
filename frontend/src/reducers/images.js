@@ -4,11 +4,12 @@ const initialState = {
   isFetching: false,
   invalidUrl: false,
   images: null,
-  showResultsContainer: false
+  showResultsContainer: false,
+  descriptions: {}
 };
 
 let images = function(state = initialState, action) {
-  switch(action.type) {  
+  switch(action.type) {
 
   case INVALIDATE_URL:
     return { ...state, isFetching: false, invalidUrl: true }
@@ -17,7 +18,7 @@ let images = function(state = initialState, action) {
     return { ...state, isFetching: true, invalidUrl: false }
 
   case RECEIVE_IMAGES_RESULT:
-    return { ...state, showResultsContainer: true, images: action.images, isFetching: false, invalidUrl: false }
+    return { ...state, showResultsContainer: true, images: action.images.images, descriptions: action.images.descriptions, isFetching: false, invalidUrl: false }
 
   default:
     return state;

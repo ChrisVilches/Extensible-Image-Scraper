@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -16,6 +17,11 @@ class ScrappersDialog extends Component {
 
     return <Dialog open={this.props.dialogIsOpen} onClose={this.props.closeDialog} aria-labelledby="simple-dialog-title">
       <DialogTitle id="simple-dialog-title">Active scrapping plugins</DialogTitle>
+
+      <DialogContent>
+        An image scraper that can be extended with new functionalities and ways to scrap multiple types of websites. Currently the following plugins are active.
+      </DialogContent>
+
       <div>
         <List>
           {this.props.scrappers.map((scrapper, key) => (

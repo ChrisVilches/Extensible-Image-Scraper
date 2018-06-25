@@ -16,9 +16,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 import * as R from 'ramda';
 
-
-
-
 class App extends Component {
 
   constructor(){
@@ -82,7 +79,7 @@ class App extends Component {
                 </div>
 
                 <div className="get-images-btn">
-                  <Button color="primary" onClick={this.openDialog}>info</Button>
+                  <Button color="primary" onClick={this.openDialog}>About</Button>
                 </div>
 
               </FormControl>
@@ -104,7 +101,7 @@ class App extends Component {
                 !R.isNil(this.props.images.images) &&
                 Object
                 .keys(this.props.images.images)
-                .map(key => <ScrapResultImages key={key} scrapperName={key} urls={this.props.images.images[key]}/>)
+                .map(key => <ScrapResultImages key={key} scrapperName={key} urls={this.props.images.images[key]} scrapperDescription={this.props.images.descriptions[key]}/>)
               }
 
               {

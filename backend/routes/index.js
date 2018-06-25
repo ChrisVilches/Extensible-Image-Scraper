@@ -11,6 +11,7 @@ const AllImages = require('../scrappers/AllImages');
 const TwitterIcon = require('../scrappers/TwitterIcon');
 const Favicon = require('../scrappers/Favicon');
 
+
 var minioClient = require('../minio');
 var util = require('../util');
 
@@ -92,7 +93,17 @@ router.get('/',
       promise = getImages(res.locals.url)
 
       .then(imgs => {
-        return res.status(200).json(imgs);
+
+        let descriptions = {};
+
+        Object.keys(imgs).map(k => {
+          descriptions[k] = imageScrapper.getScrapperDescription(k) || null;
+        });
+
+        return res.status(200).json({
+          images: imgs,
+          descriptions
+        });
       });
 
     } else {

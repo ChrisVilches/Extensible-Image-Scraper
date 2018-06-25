@@ -8,6 +8,7 @@ class ImageScrapper{
 
   constructor(options){
     this.scrappers = [];
+    this.nameToScrapperMap = {};
   }
 
   addScrapper(scrappers){
@@ -20,9 +21,15 @@ class ImageScrapper{
       if(R.isNil(s)) throw new Error("Scrapper null.");
       if(!R.is(Function, s.scrap)) throw new Error("Doesn't have 'scrap' method.");
       if(!R.is(String, s.name)) throw new Error("Doesn't have 'name' getter.");
+
+      this.nameToScrapperMap[s.name] = s;
       this.scrappers.push(s);
     });
 
+  }
+
+  getScrapperDescription(name){
+    return this.nameToScrapperMap[name].description;
   }
 
   getScrappersInfo(){
