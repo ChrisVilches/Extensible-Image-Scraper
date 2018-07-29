@@ -11,6 +11,8 @@ const AllImages = require('../scrapers/AllImages');
 const TwitterIcon = require('../scrapers/TwitterIcon');
 const Favicon = require('../scrapers/Favicon');
 
+const { forkJoin, from, of } = require('rxjs');
+const { mergeMap } = require('rxjs/operators');
 
 var minioClient = require('../minio');
 var util = require('../util');
@@ -86,49 +88,26 @@ router.get('/',
 
   function(req, res, next){
 
-    let promise;
+    let scrapImage$ = from(getImages(res.locals.url));
 
-    if(!res.locals.save){
+    const pickFeatured$ = scrapImage$.pipe(
+      mergeMap(val => res.locals.save? pushImage(selectFeaturedImage(val)) : of(null))
+    );
 
-      promise = getImages(res.locals.url)
+    forkJoin(scrapImage$, pickFeatured$).subscribe(r => {
 
-      .then(imgs => {
+      let images = r[0];
+      let featured = r[1];
+      let descriptions = {};
 
-        let descriptions = {};
-
-        Object.keys(imgs).map(k => {
-          descriptions[k] = imageScraper.getScraperDescription(k) || null;
-        });
-
-        return res.status(200).json({
-          images: imgs,
-          descriptions
-        });
+      Object.keys(images).map(k => {
+        descriptions[k] = imageScraper.getScraperDescription(k) || null;
       });
 
-    } else {
+      let result = { images, descriptions };
+      if(featured) result.featured = `${req.protocol}://${req.get('host')}/img/${featured.objectName}.${featured.ext}`;
 
-      // Scrap images
-      promise = getImages(res.locals.url)
-
-      // Select one image
-      .then(selectFeaturedImage)
-
-      // Upload image
-      .then(pushImage)
-
-      .then(data => {
-        res.status(200).json({
-          imageUrl: `${req.protocol}://${req.get('host')}/img/${data.objectName}.${data.ext}`,
-          etag: data.etag
-        });
-      });
-    }
-
-    promise.catch(err => {
-      err.message = err.message || "Error (GET images route)";
-      err.status = err.status || 400;
-      next(err);
+      res.status(200).json(result);
     });
 
   }
