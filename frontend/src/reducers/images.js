@@ -3,6 +3,7 @@ import { REQUEST_IMAGES, RECEIVE_IMAGES_RESULT, INVALIDATE_URL } from '../action
 const initialState = {
   isFetching: false,
   invalidUrl: false,
+  featured: "",
   images: null,
   showResultsContainer: false,
   descriptions: {}
@@ -18,7 +19,7 @@ let images = function(state = initialState, action) {
     return { ...state, isFetching: true, invalidUrl: false }
 
   case RECEIVE_IMAGES_RESULT:
-    return { ...state, showResultsContainer: true, images: action.images.images, descriptions: action.images.descriptions, isFetching: false, invalidUrl: false }
+    return { ...state, showResultsContainer: true, images: action.images.images, featured: action.images.featured, descriptions: action.images.descriptions, isFetching: false, invalidUrl: false }
 
   default:
     return state;

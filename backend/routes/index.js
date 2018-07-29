@@ -13,20 +13,40 @@ const Favicon = require('../scrapers/Favicon');
 
 const { forkJoin, from, of } = require('rxjs');
 const { mergeMap } = require('rxjs/operators');
+const R = require('ramda');
 
 var minioClient = require('../minio');
 var util = require('../util');
 
+let priorities;
+let imageScraper;
 
-let imageScraper = new ImageScraper();
+(function(){
 
-imageScraper.addScraper([
-  new OgImage(),
-  new AppleTouchIcon(),
-  new AllImages(),
-  new TwitterIcon(),
-  new Favicon()
-]);
+  imageScraper = new ImageScraper();
+  priorities = {};
+
+  let ogImage = new OgImage();
+  let appleTouchIcon = new AppleTouchIcon();
+  let allImages = new AllImages();
+  let twitterIcon = new TwitterIcon();
+  let favicon = new Favicon();
+
+  imageScraper.addScraper([
+    ogImage,
+    appleTouchIcon,
+    allImages,
+    twitterIcon,
+    favicon
+  ]);
+
+  priorities[ogImage.name] = 80;
+  priorities[appleTouchIcon.name] = 20;
+  priorities[allImages.name] = 50;
+  priorities[twitterIcon.name] = 100;
+  priorities[favicon.name] = 10;
+
+})();
 
 
 async function getImages(site) {
@@ -44,8 +64,17 @@ async function getImages(site) {
 
 
 function selectFeaturedImage(imgs){
-  //return imgs.favicon;
-  return imgs.allImages[0];
+
+  let scrapersUsed = Object.keys(imgs);
+
+  scrapersUsed = scrapersUsed.map(s => { return { name: s, priority: priorities[s] }});
+
+  scrapersUsed = R.reduce(R.maxBy(s => s.priority), scrapersUsed[0], scrapersUsed);
+
+  let img = imgs[scrapersUsed.name];
+
+  return R.type(img) === "Array"? img[0] : img;
+
 }
 
 
@@ -106,8 +135,10 @@ router.get('/',
 
       let result = { images, descriptions };
       if(featured) result.featured = `${req.protocol}://${req.get('host')}/img/${featured.objectName}.${featured.ext}`;
-
       res.status(200).json(result);
+    },
+    err => {
+      next({ message: "An error occurred while attempting to scrap images" });
     });
 
   }

@@ -45,7 +45,7 @@ export const fetchImages = function(url){
 
     dispatch(requestImages());
 
-    fetch("http://localhost:3000/?url=" + url)
+    fetch(`http://localhost:3000/?url=${url}&save=true`)
     .then(data => {
       if(data.status === 400) throw new Error();
       return data.json();

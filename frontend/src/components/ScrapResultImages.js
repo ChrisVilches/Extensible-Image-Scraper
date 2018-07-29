@@ -2,12 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import Icon from '@material-ui/core/Icon';
 import './ScrapResultImages.css';
+import red from '@material-ui/core/colors/blue';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  blue: {
+    color: red[500],
+    top: '4px',
+    position: 'relative',
+    paddingRight: '5px'
+  }
+});
+
 
 class ScrapResultImages extends Component {
 
   render(){
+
+    const { classes } = this.props;
 
     let urls = this.props.urls;
     let scraperName = this.props.scraperName;
@@ -24,7 +38,10 @@ class ScrapResultImages extends Component {
     return <div>
       <h3>
         <span className='scraper-name-title'>
-        {scraperName}
+
+          {this.props.featured? <Icon className={classes.blue}>star</Icon> : ''}
+
+          {scraperName}
         </span>
 
         <Tooltip id="tooltip-icon" title={scraperDescription}>
@@ -52,4 +69,4 @@ ScrapResultImages.propTypes = {
   scraperDescription: PropTypes.string
 };
 
-export default ScrapResultImages;
+export default withStyles(styles)(ScrapResultImages);

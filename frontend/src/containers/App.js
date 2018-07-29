@@ -58,6 +58,9 @@ class App extends Component {
 
   render() {
 
+    const { classes } = this.props;
+
+
     return (
       <div className="App">
         <header className="App-header">
@@ -97,6 +100,21 @@ class App extends Component {
           <Grid item xs={12}>
             <Paper className="container">
 
+              {!R.isEmpty(this.props.images.featured) && !R.isNil(this.props.images.featured)?
+                <div className="featured-container">
+                  <ScrapResultImages featured={true} scraperName="Featured" urls={this.props.images.featured} scraperDescription="This image was determined to be the most representative for this website."/>
+
+                  <p><small>(The image was saved on the server)</small></p>
+
+                  <FormControl component='form' style={{width: '60%'}} onSubmit={ev => ev.preventDefault()}>
+                    <Input readOnly value={this.props.images.featured} onFocus={ev => ev.target.select()}/>
+                  </FormControl>
+
+                </div>
+                :
+                ""
+              }
+
               {
                 !R.isNil(this.props.images.images) &&
                 Object
@@ -117,9 +135,6 @@ class App extends Component {
           : ''}
 
         </Grid>
-
-
-
 
         <ScrapersDialog
           dialogIsOpen={this.state.dialogOpen}
@@ -144,5 +159,6 @@ const mapDispatchToProps = dispatch => {
     fetchScrapers: () => { dispatch(actions.fetchScrapers()) }
   };
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

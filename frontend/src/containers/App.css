@@ -27,6 +27,10 @@
   font-size: 1.5em;
 }
 
+.featured-container{
+  margin-bottom: 50px;
+}
+
 .App-intro {
   font-size: large;
 }
@@ -34,6 +38,10 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+small{
+  color: #888888;
 }
 
 .container{
