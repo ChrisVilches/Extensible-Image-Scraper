@@ -119,7 +119,7 @@ router.get('/',
 
     let scrapImage$ = from(getImages(res.locals.url));
 
-    const pickFeatured$ = scrapImage$.pipe(
+    let pickFeatured$ = scrapImage$.pipe(
       mergeMap(val => res.locals.save? pushImage(selectFeaturedImage(val)) : of(null))
     );
 
